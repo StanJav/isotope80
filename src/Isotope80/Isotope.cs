@@ -14,6 +14,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Safari;
 using OpenQA.Selenium.Remote;
 using static LanguageExt.Prelude;
 using static Isotope80.IsotopeInternal;
@@ -309,13 +310,14 @@ namespace Isotope80
                 foreach (var webDriver in webDrivers)
                 {
                     var (d, nm) = webDriver switch
-                            {
-                                WebDriverSelect.Chrome           => (new ChromeDriver() as IWebDriver, "Chrome"),
-                                WebDriverSelect.Firefox          => (new FirefoxDriver(), "Firefox"),
-                                WebDriverSelect.Edge             => (new EdgeDriver(), "Edge"),
-                                WebDriverSelect.InternetExplorer => (new InternetExplorerDriver(), "IE"),
-                                _                                => throw new NotSupportedException($"Web-driver not supported: {webDriver}")
-                            };
+                                  {
+                                      WebDriverSelect.Chrome           => (new ChromeDriver() as IWebDriver, "Chrome"),
+                                      WebDriverSelect.Firefox          => (new FirefoxDriver(), "Firefox"),
+                                      WebDriverSelect.Edge             => (new EdgeDriver(), "Edge"),
+                                      WebDriverSelect.InternetExplorer => (new InternetExplorerDriver(), "IE"),
+                                      WebDriverSelect.Safari           => (new SafariDriver(), "Safari"),
+                                      _                                => throw new NotSupportedException($"Web-driver not supported: {webDriver}")
+                                  };
 
                     // Run with the web-driver
                     var r = context(nm, withWebDriver(d, ma)).Invoke(s);
@@ -337,13 +339,14 @@ namespace Isotope80
                 foreach (var webDriver in webDrivers)
                 {
                     var (d, nm) = webDriver switch
-                            {
-                                WebDriverSelect.Chrome           => (new ChromeDriver() as IWebDriver, "Chrome"),
-                                WebDriverSelect.Firefox          => (new FirefoxDriver(), "Firefox"),
-                                WebDriverSelect.Edge             => (new EdgeDriver(), "Edge"),
-                                WebDriverSelect.InternetExplorer => (new InternetExplorerDriver(), "IE"),
-                                _                                => throw new NotSupportedException($"Web-driver not supported: {webDriver}")
-                            };
+                                  {
+                                      WebDriverSelect.Chrome           => (new ChromeDriver() as IWebDriver, "Chrome"),
+                                      WebDriverSelect.Firefox          => (new FirefoxDriver(), "Firefox"),
+                                      WebDriverSelect.Edge             => (new EdgeDriver(), "Edge"),
+                                      WebDriverSelect.InternetExplorer => (new InternetExplorerDriver(), "IE"),
+                                      WebDriverSelect.Safari           => (new SafariDriver(), "Safari"),
+                                      _                                => throw new NotSupportedException($"Web-driver not supported: {webDriver}")
+                                  };
 
                     // Run with the web-driver
                     var r = context(nm, withWebDriver(d, ma)).Invoke(e, s);
@@ -365,13 +368,14 @@ namespace Isotope80
                 foreach (var webDriver in webDrivers)
                 {
                     var (d, nm) = webDriver switch
-                            {
-                                WebDriverSelect.Chrome           => (new ChromeDriver() as IWebDriver, "Chrome"),
-                                WebDriverSelect.Firefox          => (new FirefoxDriver(), "Firefox"),
-                                WebDriverSelect.Edge             => (new EdgeDriver(), "Edge"),
-                                WebDriverSelect.InternetExplorer => (new InternetExplorerDriver(), "IE"),
-                                _                                => throw new NotSupportedException($"Web-driver not supported: {webDriver}")
-                            };
+                                  {
+                                      WebDriverSelect.Chrome           => (new ChromeDriver() as IWebDriver, "Chrome"),
+                                      WebDriverSelect.Firefox          => (new FirefoxDriver(), "Firefox"),
+                                      WebDriverSelect.Edge             => (new EdgeDriver(), "Edge"),
+                                      WebDriverSelect.InternetExplorer => (new InternetExplorerDriver(), "IE"),
+                                      WebDriverSelect.Safari           => (new SafariDriver(), "Safari"),
+                                      _                                => throw new NotSupportedException($"Web-driver not supported: {webDriver}")
+                                  };
 
                     // Run with the web-driver
                     var r = await context(nm, withWebDriver(d, ma)).Invoke(s).ConfigureAwait(false);
@@ -393,13 +397,14 @@ namespace Isotope80
                 foreach (var webDriver in webDrivers)
                 {
                     var (d, nm) = webDriver switch
-                            {
-                                WebDriverSelect.Chrome           => (new ChromeDriver() as IWebDriver, "Chrome"),
-                                WebDriverSelect.Firefox          => (new FirefoxDriver(), "Firefox"),
-                                WebDriverSelect.Edge             => (new EdgeDriver(), "Edge"),
-                                WebDriverSelect.InternetExplorer => (new InternetExplorerDriver(), "IE"),
-                                _                                => throw new NotSupportedException($"Web-driver not supported: {webDriver}")
-                            };
+                                  {
+                                      WebDriverSelect.Chrome           => (new ChromeDriver() as IWebDriver, "Chrome"),
+                                      WebDriverSelect.Firefox          => (new FirefoxDriver(), "Firefox"),
+                                      WebDriverSelect.Edge             => (new EdgeDriver(), "Edge"),
+                                      WebDriverSelect.InternetExplorer => (new InternetExplorerDriver(), "IE"),
+                                      WebDriverSelect.Safari           => (new SafariDriver(), "Safari"),
+                                      _                                => throw new NotSupportedException($"Web-driver not supported: {webDriver}")
+                                  };
 
                     // Run with the web-driver
                     var r = await context(nm, withWebDriver(d, ma)).Invoke(e, s);
@@ -435,6 +440,12 @@ namespace Isotope80
             context("IE", withWebDriver(new InternetExplorerDriver(), ma));
 
         /// <summary>
+        /// Run the isotope provided with Safari web-driver
+        /// </summary>
+        public static Isotope<A> withSafariDriver<A>(Isotope<A> ma) =>
+            context("Safari", withWebDriver(new SafariDriver(), ma));
+
+        /// <summary>
         /// Run the isotope provided with Chrome web-driver
         /// </summary>
         public static Isotope<Env, A> withChromeDriver<Env, A>(Isotope<Env, A> ma) =>
@@ -457,6 +468,12 @@ namespace Isotope80
         /// </summary>
         public static Isotope<Env, A> withInternetExplorerDriver<Env, A>(Isotope<Env, A> ma) =>
             context("IE", withWebDriver(new InternetExplorerDriver(), ma));
+
+        /// <summary>
+        /// Run the isotope provided with Safari web-driver
+        /// </summary>
+        public static Isotope<Env, A> withSafariDriver<Env, A>(Isotope<Env, A> ma) =>
+            context("Safari", withWebDriver(new SafariDriver(), ma));
 
         /// <summary>
         /// Run the isotope provided with Chrome web-driver
@@ -483,6 +500,12 @@ namespace Isotope80
             context("IE", withWebDriver(new InternetExplorerDriver(), ma));
         
         /// <summary>
+        /// Run the isotope provided with Safari web-driver
+        /// </summary>
+        public static IsotopeAsync<A> withSafariDriver<A>(IsotopeAsync<A> ma) =>
+            context("Safari", withWebDriver(new SafariDriver(), ma));
+        
+        /// <summary>
         /// Run the isotope provided with Chrome web-driver
         /// </summary>
         public static IsotopeAsync<Env, A> withChromeDriver<Env, A>(IsotopeAsync<Env, A> ma) =>
@@ -507,6 +530,12 @@ namespace Isotope80
             context("IE", withWebDriver(new InternetExplorerDriver(), ma));
         
         /// <summary>
+        /// Run the isotope provided with Safari web-driver
+        /// </summary>
+        public static IsotopeAsync<Env, A> withSafariDriver<Env, A>(IsotopeAsync<Env, A> ma) =>
+            context("Safari", withWebDriver(new SafariDriver(), ma));
+        
+        /// <summary>
         /// Set the window size of the browser
         /// </summary>
         /// <param name="width">Width in pixels</param>
@@ -520,6 +549,110 @@ namespace Isotope80
         public static Isotope<Unit> setWindowSize(Size size) =>
             from d in webDriver
             from _ in trya(() => d.Manage().Window.Size = size, $"Failed to change browser window size to {size.Width} by {size.Height}")
+            select unit;
+
+        /// <summary>
+        /// Set the window position of the browser
+        /// </summary>
+        /// <param name="x">Horizontal offset coordinate from left screen bound</param>
+        /// <param name="y">Vertical offset coordinate from upper screen bount</param>
+        public static Isotope<Unit> setWindowPosition(int x, int y) =>
+            setWindowPosition(new Point(x, y));
+
+        /// <summary>
+        /// Set the window position of the browser
+        /// </summary>
+        public static Isotope<Unit> setWindowPosition(Point point) =>
+            from d in webDriver
+            from _ in trya(() => d.Manage().Window.Position = point, $"Failed to move browser window to {point.X}, {point.Y}")
+            select unit;
+
+        /// <summary>
+        /// Maximise browser window
+        /// </summary>
+        public static Isotope<Unit> maximiseWindow =>
+            from d in webDriver
+            from _ in trya(() => d.Manage().Window.Maximize(), "Failed to maximise browser window")
+            select unit;
+        
+        /// <summary>
+        /// Minimise browser window
+        /// </summary>
+        public static Isotope<Unit> minimiseWindow =>
+            from d in webDriver
+            from _ in trya(() => d.Manage().Window.Minimize(), "Failed to minimise browser window")
+            select unit;
+        
+        /// <summary>
+        /// Set browser window to full screen
+        /// </summary>
+        public static Isotope<Unit> fullscreenWindow =>
+            from d in webDriver
+            from _ in trya(() => d.Manage().Window.FullScreen(), "Failed to change browser to fullscreen")
+            select unit;
+
+        /// <summary>
+        /// Navigate back using the browser's back button
+        /// </summary>
+        public static Isotope<Unit> back =>
+            from d in webDriver
+            from _ in trya(() => d.Navigate().Back(), "Failed to go back in browser")
+            select unit;
+
+        /// <summary>
+        /// Navigate forward using the browser's forward button
+        /// </summary>
+        public static Isotope<Unit> forward =>
+            from d in webDriver
+            from _ in trya(() => d.Navigate().Forward(), "Failed to go forward in browser")
+            select unit;
+
+        /// <summary>
+        /// Refresh current page
+        /// </summary>
+        public static Isotope<Unit> refresh =>
+            from d in webDriver
+            from _ in trya(() => d.Navigate().Refresh(), "Failed to refresh current page")
+            select unit;
+
+        /// <summary>
+        /// Opens and switches to new tab
+        /// </summary>
+        public static Isotope<Unit> newTab =>
+            from d in webDriver
+            from _ in trya(() => d.SwitchTo().NewWindow(WindowType.Tab), "Failed to open new tab")
+            select unit;
+
+        /// <summary>
+        /// Change browser tab by position, determined by the order opened <para/>
+        /// Tabs in separate window also switchable to in the same order
+        /// </summary>
+        /// <param name="position">Zero-based position of tab</param>
+        /// <returns></returns>
+        public static Isotope<Unit> switchTabs(int position) =>
+            from d in webDriver
+            let tabs = d.WindowHandles
+            from _ in trya(() => d.SwitchTo().Window(tabs[position]), $"Failed to switch to tab {position}")
+            select unit;
+
+        /// <summary>
+        /// Close current tab
+        /// </summary>
+        public static Isotope<Unit> closeTab =>
+            from d in webDriver
+            let currentTab = d.WindowHandles.IndexOf(d.CurrentWindowHandle)
+            from _c in trya(() => d.Close(), "Failed to close current tab")
+            from _s in currentTab > 0                   
+                           ? switchTabs(currentTab - 1) // focus has been lost when tab closed
+                           : pure(unit)
+            select unit;
+        
+        /// <summary>
+        /// Opens and switches to new window
+        /// </summary>
+        public static Isotope<Unit> newWindow =>
+            from d in webDriver
+            from _ in trya(() => d.SwitchTo().NewWindow(WindowType.Window), "Failed to open new window")
             select unit;
 
         /// <summary>
@@ -542,7 +675,7 @@ namespace Isotope80
         /// Find an HTML element
         /// </summary>
         /// <param name="selector">Element selector</param>
-        public static Isotope<WebElement> find1(Query selector) =>
+        public static Isotope<WebElement> find1(Select selector) =>
             find(selector + whenAtLeastOne).Map(es => es.Head);
 
         /// <summary>
@@ -550,11 +683,9 @@ namespace Isotope80
         /// </summary>
         /// <param name="element">Element to search</param>
         /// <param name="selector">Child element selector</param>
-        public static Isotope<WebElement> find1(WebElement element, Query selector) =>
+        public static Isotope<WebElement> find1(WebElement element, Select selector) =>
             from dr in webDriver
-            from rs in (element.Id == ""
-                          ? find1(new ByElementId(dr, element.ElementId) + selector)
-                          : find1(Query.byId(element.Id) + selector)) |
+            from rs in find1(Select.byId(element.Id) + selector) |
                        find1(element.Selector + atIndex(element.SelectionIndex) + selector)
             select rs; 
         
@@ -562,7 +693,7 @@ namespace Isotope80
         /// Find HTML elements
         /// </summary>
         /// <param name="selector">Element selector</param>
-        public static Isotope<Seq<WebElement>> find(Query selector) =>
+        public static Isotope<Seq<WebElement>> find(Select selector) =>
             selector.ToSeq();
 
         /// <summary>
@@ -570,18 +701,16 @@ namespace Isotope80
         /// </summary>
         /// <param name="element">Element to search</param>
         /// <param name="selector">Element selector</param>
-        public static Isotope<Seq<WebElement>> find(WebElement element, Query selector) =>
+        public static Isotope<Seq<WebElement>> find(WebElement element, Select selector) =>
             from dr in webDriver
-            from rs in (element.Id == ""
-                            ? find(new ByElementId(dr, element.ElementId) + selector)
-                            : find(Query.byId(element.Id) + selector)) |
+            from rs in find(Select.byId(element.Id) + selector) |
                        find(element.Selector + atIndex(element.SelectionIndex) + selector)
             select rs; 
 
         /// <summary>
         /// Select a &lt;select&gt; option by text
         /// </summary>     
-        public static Isotope<Unit> selectByText(Query selector, string text) =>
+        public static Isotope<Unit> selectByText(Select selector, string text) =>
             from el in selector.ToIsotopeHead()
             from se in IsotopeInternal.toSelectElement(el)
             from _  in IsotopeInternal.selectByText(se, text)
@@ -590,7 +719,7 @@ namespace Isotope80
         /// <summary>
         /// Select a &lt;select&gt; option by value
         /// </summary>     
-        public static Isotope<Unit> selectByValue(Query selector, string value) =>
+        public static Isotope<Unit> selectByValue(Select selector, string value) =>
             from el in selector.ToIsotopeHead()
             from se in IsotopeInternal.toSelectElement(el)
             from _  in IsotopeInternal.selectByValue(se, value)
@@ -601,7 +730,7 @@ namespace Isotope80
         /// </summary>
         /// <param name="selector">Element selector</param>
         /// <returns>The selected Option text</returns>
-        public static Isotope<string> getSelectedOptionText(Query selector) =>
+        public static Isotope<string> getSelectedOptionText(Select selector) =>
             from ele in selector.ToIsotopeHead()
             from sel in IsotopeInternal.toSelectElement(ele)
             from opt in IsotopeInternal.getSelectedOption(sel)
@@ -613,7 +742,7 @@ namespace Isotope80
         /// </summary>
         /// <param name="selector">Element selector</param>
         /// <returns>The selected Option value</returns>
-        public static Isotope<string> getSelectedOptionValue(Query selector) =>
+        public static Isotope<string> getSelectedOptionValue(Select selector) =>
             from ele in selector.ToIsotopeHead()
             from sel in IsotopeInternal.toSelectElement(ele)
             from opt in IsotopeInternal.getSelectedOption(sel)
@@ -625,7 +754,7 @@ namespace Isotope80
         /// </summary>
         /// <param name="selector">Web element selector</param>
         /// <returns>Is checked\s</returns>
-        public static Isotope<bool> isCheckboxChecked(Query selector) =>
+        public static Isotope<bool> isCheckboxChecked(Select selector) =>
             from ele in selector.ToIsotopeHead()
             from res in IsotopeInternal.isCheckboxChecked(ele)
             select res;
@@ -635,7 +764,7 @@ namespace Isotope80
         /// </summary>
         /// <param name="selector">Web element selector</param>
         /// <param name="ticked">Check the box or not</param>
-        public static Isotope<Unit> setCheckbox(Query selector, bool ticked) =>
+        public static Isotope<Unit> setCheckbox(Select selector, bool ticked) =>
             from ele in selector.ToIsotopeHead()
             from val in IsotopeInternal.isCheckboxChecked(ele)
             from _   in val == ticked
@@ -649,7 +778,7 @@ namespace Isotope80
         /// <param name="selector">Web element selector</param>
         /// <param name="style">Style attribute to look up</param>
         /// <returns>A string representing the style value</returns>
-        public static Isotope<string> getStyle(Query selector, string style) =>
+        public static Isotope<string> getStyle(Select selector, string style) =>
             selector.ToIsotopeHead()
                     .Bind(el => IsotopeInternal.getStyle(el, style));
 
@@ -658,7 +787,7 @@ namespace Isotope80
         /// </summary>
         /// <param name="selector">Web element selector</param>
         /// <returns>The Z Index value</returns>
-        public static Isotope<int> getZIndex(Query selector) =>
+        public static Isotope<int> getZIndex(Select selector) =>
             from ele in selector.ToIsotopeHead()
             from zis in IsotopeInternal.getStyle(ele, "zIndex")
             from zii in parseInt(zis).ToIsotope($"z-Index was not valid integer: {zis}.")
@@ -670,7 +799,7 @@ namespace Isotope80
         /// <param name="selector">Web element selector</param>
         /// <param name="att">Attribute to look up</param>
         /// <returns>A string representing the attribute value</returns>
-        public static Isotope<string> attribute(Query selector, string att) =>
+        public static Isotope<string> attribute(Select selector, string att) =>
             selector.ToIsotopeHead()
                     .Bind(el => IsotopeInternal.attribute(el, att));
 
@@ -679,7 +808,7 @@ namespace Isotope80
         /// </summary>
         /// <param name="selector">Web element selector</param>
         /// <param name="keys">String of characters that are typed</param>
-        public static Isotope<Unit> sendKeys(Query selector, string keys) =>
+        public static Isotope<Unit> sendKeys(Select selector, string keys) =>
             selector.ToIsotopeHead()
                     .Bind(el => IsotopeInternal.sendKeys(el, keys));
 
@@ -687,7 +816,7 @@ namespace Isotope80
         /// Simulates the mouse-click
         /// </summary>
         /// <param name="selector">Web element selector</param>
-        public static Isotope<Unit> click(Query selector) =>
+        public static Isotope<Unit> click(Select selector) =>
             selector.ToIsotopeHead()
                     .Bind(IsotopeInternal.click);
         
@@ -695,10 +824,25 @@ namespace Isotope80
         /// Clears the content of an element
         /// </summary>
         /// <param name="selector">Web element selector</param>
-        public static Isotope<Unit> clear(Query selector) =>
+        public static Isotope<Unit> clear(Select selector) =>
             selector.ToIsotopeHead()
                     .Bind(IsotopeInternal.clear);
 
+        /// <summary>
+        /// Simulates keyboard by sending `keys` and overwriting current content
+        /// </summary>
+        /// <param name="selector">Web element selector</param>
+        /// <param name="keys">String of characters that are typed</param>
+        /// <remarks>
+        /// Series of actions where element is clicked, pressed keys CTRL+A, Backspace then typed in new keys.
+        /// It is an alternative to clear (without triggering event (change, blur or focus)) and sendKeys
+        /// 
+        /// https://stackoverflow.com/questions/19833728/webelement-clear-fires-javascript-change-event-alternatives
+        /// </remarks>
+        public static Isotope<Unit> overwrite(Select selector, string keys) =>
+            selector.ToIsotopeHead()
+                    .Bind(el => IsotopeInternal.overwrite(el, keys));
+        
         /// <summary>
         /// ONLY USE AS A LAST RESORT
         /// Pauses the processing for an interval to brute force waiting for actions to complete
@@ -713,7 +857,7 @@ namespace Isotope80
         /// Gets the text inside an element
         /// </summary>
         /// <param name="selector">Element containing txt</param>
-        public static Isotope<string> text(Query selector) =>
+        public static Isotope<string> text(Select selector) =>
             from el in selector.ToIsotopeHead()
             from rs in tryf(() => el.Text, $@"Error getting text from element: {prettyPrint(el)}")
             select rs;
@@ -722,7 +866,7 @@ namespace Isotope80
         /// Gets the value attribute of an element
         /// </summary>
         /// <param name="selector">Element containing value</param>
-        public static Isotope<string> value(Query selector) =>
+        public static Isotope<string> value(Select selector) =>
             from el in selector.ToIsotopeHead()
             from rs in tryf(() => el.GetAttribute("Value"), $@"Error getting value from element: {prettyPrint(el)}")
             select rs;
@@ -1141,9 +1285,97 @@ namespace Isotope80
                                            Log: s.Log.Add(s2.Log).Log))   
             select r;
 
+        /// <summary>
+        /// Mute log
+        /// </summary>
+        public static Isotope<A> mute<A>(Isotope<A> iso) =>
+            from s in get
+            from x in put(s.With(Mute: true))
+            from r in iso
+            from _ in modify(s2 => s2.With(Mute: s.Mute))
+            select r;
+
+        /// <summary>
+        /// Mute log
+        /// </summary>
+        public static Isotope<Env, A> mute<Env, A>(Isotope<Env, A> iso) =>
+            from s in get
+            from x in put(s.With(Mute: true))
+            from r in iso
+            from _ in modify(s2 => s2.With(Mute: s.Mute))
+            select r;
+
+        /// <summary>
+        /// Mute log
+        /// </summary>
+        public static IsotopeAsync<A> mute<A>(IsotopeAsync<A> iso) =>
+            from s in get
+            from x in put(s.With(Mute: true))
+            from r in iso
+            from _ in modify(s2 => s2.With(Mute: s.Mute))
+            select r;
+
+        /// <summary>
+        /// Mute log
+        /// </summary>
+        public static IsotopeAsync<Env, A> mute<Env, A>(IsotopeAsync<Env, A> iso) =>
+            from s in get
+            from x in put(s.With(Mute: true))
+            from r in iso
+            from _ in modify(s2 => s2.With(Mute: s.Mute))
+            select r;
+
+        /// <summary>
+        /// Measure the time interval of an isotope
+        /// </summary>
+        public static Isotope<(A Result, TimeSpan Time)> stopwatch<A>(Isotope<A> iso) =>
+            from _1 in info("Start stopwatch")
+            from t in pure(Stopwatch.StartNew())
+            from r in iso
+            from _2 in trya(() => t.Stop(), "Unable to stop stopwatch")
+            from e in tryf(() => t.Elapsed, "Unable to get elapsed time")
+            from _3 in info($"Stop stopwatch, elapsed time: {e.ToString(@"m\:ss\.fff")}")
+            select (r, e);
+
+        /// <summary>
+        /// Measure the time interval of an isotope
+        /// </summary>
+        public static Isotope<Env, (A Result, TimeSpan Time)> stopwatch<Env, A>(Isotope<Env, A> iso) =>
+            from _1 in info("Start stopwatch")
+            from t in pure(Stopwatch.StartNew())
+            from r in iso
+            from _2 in trya(() => t.Stop(), "Unable to stop stopwatch")
+            from e in tryf(() => t.Elapsed, "Unable to get elapsed time")
+            from _3 in info($"Stop stopwatch, elapsed time: {e.ToString(@"m\:ss\.fff")}")
+            select (r, e);
+
+        /// <summary>
+        /// Measure the time interval of an isotope
+        /// </summary>
+        public static IsotopeAsync<(A Result, TimeSpan Time)> stopwatch<A>(IsotopeAsync<A> iso) =>
+            from _1 in info("Start stopwatch")
+            from t in pure(Stopwatch.StartNew())
+            from r in iso
+            from _2 in trya(() => t.Stop(), "Unable to stop stopwatch")
+            from e in tryf(() => t.Elapsed, "Unable to get elapsed time")
+            from _3 in info($"Stop stopwatch, elapsed time: {e.ToString(@"m\:ss\.fff")}")
+            select (r, e);
+
+        /// <summary>
+        /// Measure the time interval of an isotope
+        /// </summary>
+        public static IsotopeAsync<Env, (A Result, TimeSpan Time)> stopwatch<Env, A>(IsotopeAsync<Env, A> iso) =>
+            from _1 in info("Start stopwatch")
+            from t in pure(Stopwatch.StartNew())
+            from r in iso
+            from _2 in trya(() => t.Stop(), "Unable to stop stopwatch")
+            from e in tryf(() => t.Elapsed, "Unable to get elapsed time")
+            from _3 in info($"Stop stopwatch, elapsed time: {e.ToString(@"m\:ss\.fff")}")
+            select (r, e);
+        
         static Isotope<Unit> writeToLogStream(Log entry) =>
             new Isotope<Unit>(s => {
-                  if (!String.IsNullOrWhiteSpace(entry.Message))
+                  if (!String.IsNullOrWhiteSpace(entry.Message) && !s.Mute)
                   {
                       s.Settings.LogStream.OnNext(new LogOutput(entry.Message, entry.Type, s.Context.Count, entry.Time, entry.CallerMemberName, entry.CallerFilePath, entry.CallerLineNumber));
                   }
@@ -1153,7 +1385,7 @@ namespace Isotope80
         /// <summary>
         /// Wait for an element to be rendered and clickable, fail if exceeds default timeout
         /// </summary>
-        public static Isotope<Unit> waitUntilClickable(Query selector) =>
+        public static Isotope<Unit> waitUntilClickable(Select selector) =>
             from w  in defaultWait
             from el in waitUntilClickable(selector, w)
             select unit;
@@ -1161,10 +1393,17 @@ namespace Isotope80
         /// <summary>
         /// Wait for an element to be rendered and clickable, fail if exceeds timeout specified
         /// </summary>
-        public static Isotope<Unit> waitUntilClickable(Query selector, TimeSpan timeout) =>
+        public static Isotope<Unit> waitUntilClickable(Select selector, TimeSpan timeout) =>
             from _1 in info($"Waiting until clickable: {selector}")
-            from el in selector.WaitUntilExists.ToIsotopeHead()
-            from _2 in IsotopeInternal.waitUntilClickable(el, timeout)
+            from _ in Isotope.waitUntil(
+                from el in selector.ToIsotopeHead()
+                from _1a in info($"Checking clickability " + prettyPrint(el))
+                from d in IsotopeInternal.displayed(el)
+                from e in IsotopeInternal.enabled(el)
+                from o in IsotopeInternal.obscured(el)
+                from _2a in info($"Displayed: {d}, Enabled: {e}, Obscured: {o}")
+                select d && e && (!o),
+                identity, wait: timeout)
             select unit;
         
         /// <summary>
@@ -1604,7 +1843,7 @@ namespace Isotope80
         /// </summary>
         /// <param name="selector">Web element selector</param>
         /// <returns>True if the element is currently displayed</returns>
-        public static Isotope<bool> displayed(Query selector) =>
+        public static Isotope<bool> displayed(Select selector) =>
             selector.ToIsotopeHead()
                     .Bind(IsotopeInternal.displayed);
 
@@ -1613,7 +1852,7 @@ namespace Isotope80
         /// </summary>
         /// <param name="selector">Web element selector</param>
         /// <returns>True if the element is currently enabled</returns>
-        public static Isotope<bool> enabled(Query selector) =>
+        public static Isotope<bool> enabled(Select selector) =>
              selector.ToIsotopeHead()
                      .Bind(IsotopeInternal.enabled);
 
@@ -1622,7 +1861,7 @@ namespace Isotope80
         /// </summary>
         /// <param name="selector">Web element selector</param>
         /// <returns>True if a matching element exists</returns>
-        public static Isotope<bool> exists(Query selector) =>
+        public static Isotope<bool> exists(Select selector) =>
             from es in selector.ToIsotope()
             select !es.IsEmpty;
 
@@ -1632,7 +1871,7 @@ namespace Isotope80
         /// </summary>
         /// <param name="selector">Web element selector</param>
         /// <returns>true if the element is foremost</returns>
-        public static Isotope<bool> obscured(Query selector) =>
+        public static Isotope<bool> obscured(Select selector) =>
             selector.ToIsotopeHead()
                     .Bind(IsotopeInternal.obscured);
 
@@ -1653,7 +1892,7 @@ namespace Isotope80
         ///     success operation.
         /// 
         /// </remarks>
-        public static Isotope<Unit> hasText(Query element, string comparison) =>
+        public static Isotope<Unit> hasText(Select element, string comparison) =>
             from t in text(element)
             from r in t == comparison
                           ? unitM
@@ -1746,5 +1985,14 @@ namespace Isotope80
             from dvr in webDriver
             let ts = dvr as ITakesScreenshot
             select ts == null ? None : Some(ts.GetScreenshot());
+
+        /// <summary>
+        /// Runs the javascript and returns a value
+        /// </summary>
+        public static Isotope<T> eval<T>(string javascript) =>
+            from dvr in webDriver
+            let jsExec = (IJavaScriptExecutor)dvr
+            from res in pure((T)jsExec.ExecuteScript(javascript))
+            select res;
     }
 }

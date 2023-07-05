@@ -12,6 +12,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Interactions;
 using static LanguageExt.Prelude;
 using static Isotope80.Isotope;
 
@@ -135,24 +136,23 @@ namespace Isotope80
         /// <returns>Unit</returns>
         public static Isotope<Unit> clear(IWebElement element) =>
             trya(element.Clear, $@"Error clearing element: {prettyPrint(element)}");
-
+        
         /// <summary>
-        /// Wait for an element to be rendered and clickable, fail if exceeds default timeout
+        /// Overwrites the content of an element
         /// </summary>
-        public static Isotope<Unit> waitUntilClickable(IWebElement element) =>
-            from w in defaultWait
-            from _ in waitUntilClickable(element, w)
-            select unit;
-
-        public static Isotope<Unit> waitUntilClickable(IWebElement el, TimeSpan timeout) =>
-            from _ in Isotope.waitUntil(
-                from _1a in info($"Checking clickability " + prettyPrint(el))
-                from d in displayed(el)
-                from e in enabled(el)
-                from o in obscured(el)
-                from _2a in info($"Displayed: {d}, Enabled: {e}, Obscured: {o}")
-                select d && e && (!o),
-                identity)
+        /// <param name="element">Web Driver Element</param>
+        /// <param name="keys">String of characters that are typed</param>
+        /// <returns>Unit</returns>
+        public static Isotope<Unit> overwrite(IWebElement element, string keys) =>
+            from dvr in webDriver
+            let actions = new Actions(dvr)
+            from _1 in trya(() => actions.Click(element)
+                                         .KeyDown(Keys.Control)
+                                         .SendKeys("a")
+                                         .KeyUp(Keys.Control)
+                                         .SendKeys(Keys.Backspace)
+                                         .SendKeys(keys)
+                                         .Perform(), $@"Error overwriting element: {prettyPrint(element)}")
             select unit;
         
         public static string prettyPrint(IWebElement x)
@@ -207,20 +207,28 @@ namespace Isotope80
             TimeSpan wait,
             DateTime started)
         {
-            return go().Bind(o => o.Match(Some: pure, None: fail("Timed out"))); 
+            var cond = (from x in iso
+                        from _ in condition(x)
+                                      ? pure(unit)
+                                      : fail("Condition failed")
+                        select (CondPassed: true, Result: x)) |
+                       (from _ in pause(interval)
+                        select (CondPassed: false, Result: default(A)));
+            
+            return new Isotope<A>(s =>
+            {
+                var l = cond.Invoke(s);
+                while (!l.Value.CondPassed)
+                {
+                    l = DateTime.UtcNow - started >= wait
+                            ? new IsotopeState<(bool CondPassed, A Result)>(
+                                (true, default(A)),
+                                s.With(Error: Seq1(fail("Timed out"))))
+                            : cond.Invoke(s);
+                }
 
-            // NOTE: This will probably have to stop being recursive 
-            Isotope<Option<A>> go() =>
-                DateTime.UtcNow - started >= wait
-                    ? pure<Option<A>>(None)
-                    : (from x in iso
-                       from r in condition(x)
-                                     ? pure(x)
-                                     : fail("Condition failed")
-                       select Some(r)) |
-                      (from _ in pause(interval)
-                       from r in go()
-                       select r);
+                return l.Map(v => v.Result);
+            });
         }
 
         public static Exception Aggregate(Seq<Error> errs) =>
